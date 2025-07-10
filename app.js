@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 
 // ENDPOINT para recuperar todas las películas
 app.get('/movies', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
   const { genre } = req.query;
   if (genre) {
     const filterGenre = movies.filter(movie => movie.genre.some(g => g.toLowerCase() === genre.toLowerCase()));
