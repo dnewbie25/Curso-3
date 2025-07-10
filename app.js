@@ -3,7 +3,7 @@ const crypto = require('node:crypto');
 const movies = require('./movies.json');
 // zod es una librería para validar datos
 const z = require('zod');
-const { validateMovie } = require('./schemas/movies');
+const { validateMovie, validatePartialMovie } = require('./schemas/movies');
 const app = express();
 app.disable('x-powered-by') //dehabilita ese header
 
@@ -58,6 +58,20 @@ app.get('/movies/:id', (req, res) => {
     res.status(404).json({ error: 'Movie not found' });
   }
   res.json(movie);
+})
+
+// endpoint para actualizar una película por ID
+app.patch('/movies/:id', (req, res) => {
+  const { id } = req.params;
+  let movieIndex = movies.findIndex(movie => movie.id === id);
+  if (movieIndex < 0) return res.status(404).json({ error: 'Movie not found' });
+  const isMovieValid = validatePartialMovie(req.body);
+  if (isMovieValid.error) {
+    return res.status(400).json({ error: JSON.parse(isMovieValid.error.message) });
+  }
+  movies[movieIndex] = { ...movies[movieIndex], ...req.body }
+  res.status(204).json(movies[movieIndex])
+
 })
 
 app.listen(PORT, () => {

@@ -11,17 +11,21 @@ GET http://localhost:3000/movies?genre=fantasy
 POST http://localhost:3000/movies
 Content-Type: application/json
 
+
 {
-  "title":1,
-  "year": 1972
+  "title": "The Godfather",
+  "year": 1972,
+  "genre": ["Crime", "Drama"],
+  "director": "Francis Ford Coppola",
+  "duration": 175,
+  "poster": "https://upload.wikimedia.org/wikipedia/en/1/1c/Godfather_ver1.jpg"
 }
 
-# {
-#   "title": "The Godfather",
-#   "year": "1972",
-#   "genre": ["Crime", "Drama"],
-#   "director": "Francis Ford Coppola",
-#   "duration": "175 min",
-#   "poster": "https://upload.wikimedia.org/wikipedia/en/1/1c/Godfather_ver1.jpg"
-# }
+### actualizar una pelicula
+PATCH http://localhost:3000/movies/5ad1a235-0d9c-410a-b32b-220d91689a08
+Content-Type: application/json
+
+{
+  "year": 1975
+}
 
