@@ -1,9 +1,8 @@
 const express = require('express');
 const crypto = require('node:crypto');
 const movies = require('./movies.json');
-const z = require('zod');
 // zod es una librería para validar datos
-const { error } = require('console');
+const z = require('zod');
 const { validateMovie } = require('./schemas/movies');
 const app = express();
 app.disable('x-powered-by') //dehabilita ese header
@@ -29,11 +28,12 @@ app.get('/movies', (req, res) => {
 app.post('/movies', (req, res) => {
   const { title, genre, year, director, duration, rate, poster } = req.body;
   const result = validateMovie(req.body);
+
   if (result.error) {
     // el cliente ha hecho algo para que la petición no sea válida
     // por ejemplo, enviar un campo que no existe o un tipo de dato incorrecto
     // en este caso, se devuelve un error 400 (Bad Request)
-    return res.status(400).json({ error: result.error.message })
+    return res.status(400).json({ error: JSON.parse(result.error.message) })
   }
   const newMovie = {
     id: crypto.randomUUID(), // crea uuid v4

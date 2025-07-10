@@ -19,7 +19,7 @@ const movieSchema = z.object({
 })
 
 function validateMovie(movie) {
-  movieSchema.safeParse(movie);
+  return movieSchema.safeParse(movie);
 }
 
 module.exports = {
