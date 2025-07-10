@@ -29,3 +29,6 @@ Content-Type: application/json
   "year": 1975
 }
 
+### eliminar una pelicula
+DELETE http://localhost:3000/movies/5ad1a235-0d9c-410a-b32b-220d91689a08
+Content-Type: application/json

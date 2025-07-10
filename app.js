@@ -75,6 +75,26 @@ app.patch('/movies/:id', (req, res) => {
 
 })
 
+// borrar movie
+app.delete('/movies/:id', (req, res) => {
+  const { id } = req.params
+  const movieIndex = movies.findIndex(movie => movie.id === id)
+  if (movieIndex < 0) return res.status(404).json({ error: 'Movie not found' });
+  // const isMovieValid = validatePartialMovie({ id })
+  // if (isMovieValid.error) {
+  //   return res.status(400).json({ error: JSON.parse(isMovieValid.error.message) });
+  // }
+  movies.splice(movieIndex, 1)
+  res.status(200).json({ message: 'Movie deleted' })
+})
+
+// los options en el CORS
+app.options('/movies/:id', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATH, DELETE')
+  res.status(200).json(movies)
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
